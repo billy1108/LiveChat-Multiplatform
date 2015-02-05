@@ -12,8 +12,8 @@ class MessageThreadController < UIViewController
   def viewDidLoad
     super
     self.navigationController.navigationBar.translucent = false
-    setup_elements
   end
+
 
 
   #MARK - ACTIONS

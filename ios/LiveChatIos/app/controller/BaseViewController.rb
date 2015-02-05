@@ -1,9 +1,8 @@
 class BaseViewController < UIViewController
   extend IB
 
-  outlet :usernameTextView, UITextField
+  outlet :usernameTextField, UITextField
   outlet :goButton, UIButton
-  outlet :lbl_name, UITextField
 
   def viewDidLoad
     super
@@ -11,8 +10,12 @@ class BaseViewController < UIViewController
   end
 
 
-  #MARK - ACTIONS
-  def get_username
+  def prepareForSegue segue, sender: sender
+    case segue.identifier
+    when "MessageThreadDetailSegue"
+      segue.destinationViewController.username = usernameTextField.text
+    end
   end
+
 
 end

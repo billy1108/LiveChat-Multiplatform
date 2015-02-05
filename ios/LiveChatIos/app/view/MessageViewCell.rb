@@ -6,7 +6,7 @@ class MessageViewCell < UITableViewCell
   outlet :lbl_time, UILabel
   outlet :lbl_text, UILabel
 
-  def setMessageCell(message)
+  def setMessageCell message
     
   end
   
