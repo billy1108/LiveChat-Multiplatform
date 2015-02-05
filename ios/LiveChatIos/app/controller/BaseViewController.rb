@@ -3,7 +3,7 @@ class BaseViewController < UIViewController
 
   outlet :usernameTextView, UITextField
   outlet :goButton, UIButton
-
+  outlet :lbl_name, UITextField
 
   def viewDidLoad
     super
@@ -13,7 +13,6 @@ class BaseViewController < UIViewController
 
   #MARK - ACTIONS
   def get_username
-
   end
 
 end

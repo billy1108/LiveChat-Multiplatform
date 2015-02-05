@@ -1,7 +1,14 @@
+var fs = require('fs');
+var privateKey  = fs.readFileSync('ssl/server.key', 'utf8');
+var certificate = fs.readFileSync('ssl/server.crt', 'utf8');
+var options = {key: privateKey, cert: certificate};
+
 // Setup basic express server
 var express = require('express');
 var app = express();
-var server = require('http').createServer(app);
+var server = require('https').createServer(options, app);
+
+// var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
 
