@@ -24,8 +24,6 @@ class MessageThreadController < UIViewController
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
   end
     
-
-
   #MARK - ACTIONS
 
   def send_message
