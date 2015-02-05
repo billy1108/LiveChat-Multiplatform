@@ -15,12 +15,21 @@ class MessageThreadController < UIViewController
     setup_elements
   end
 
-  def setup_elements
-    p "edfwsd"
-    socketIO = SocketIO.alloc.initWithDelegate(self)
-    # socketIO.connectToHost("localhost",onPort:nil)
-
+  def viewWillAppear(animated)
+    NSNotificationCenter.defaultCenter.addObserver(self, selector: "keyboardDidShow:", name:UIKeyboardDidShowNotification, object: nil)
+    NSNotificationCenter.defaultCenter.addObserver(self, selector: "keyboardWillHide:", name:UIKeyboardWillHideNotification, object: nil)
   end
+
+  def viewDidDisappear(animated)
+    NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardDidShowNotification, object: nil)
+    NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+  end
+
+  def setup_elements
+    socketIO = SocketIO.alloc.initWithDelegate(self)
+    socketIO.connectToHost("localhost",onPort:nil)
+  end
+    
 
   #MARK - ACTIONS
 
@@ -28,6 +37,28 @@ class MessageThreadController < UIViewController
     
   end
 
+  def goToBottomCollectionView
+    p "goToBottomCollectionView"
+  end
 
+  #MARK: - Notification Handler
+
+  def keyboardDidShow(notification)
+    info = notification.userInfo
+    keyboardFrame = info[UIKeyboardFrameEndUserInfoKey].CGRectValue
+    UIView.animateWithDuration(0.5, animations: lambda{
+      bottomConstraint.constant = keyboardFrame.size.height
+    }, completion: lambda{  |bool|
+      goToBottomCollectionView
+    })
+  end
+
+  def keyboardWillHide(notification)
+    info = notification.userInfo
+    keyboardFrame = info[UIKeyboardFrameEndUserInfoKey].CGRectValue
+    UIView.animateWithDuration(0.1, animations: lambda{
+      bottomConstraint.constant = 0.0
+    }, nil)
+  end
 
 end
