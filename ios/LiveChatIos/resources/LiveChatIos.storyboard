@@ -63,6 +63,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ucL-Rr-Uki"/>
+                    <connections>
+                        <outlet property="goButton" destination="FGe-dJ-0He" id="WUA-14-OJ2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HwP-mc-7mJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -71,7 +74,7 @@
         <!--Navigation Controller-->
         <scene sceneID="7AZ-cM-PFA">
             <objects>
-                <navigationController id="Xwh-Eb-Ozy" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="Main" id="Xwh-Eb-Ozy" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="mNm-pz-MrX">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -336,21 +339,31 @@
                                             <constraint firstAttribute="width" constant="34" id="q5r-37-Ngn"/>
                                         </constraints>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="color_textfield_background@2x" translatesAutoresizingMaskIntoConstraints="NO" id="gKG-28-q9y" customClass="SpontivityTextField" customModule="Spontivity" customModuleProvider="target">
-                                        <rect key="frame" x="55" y="8" width="540" height="35"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="color_textfield_background@2x" translatesAutoresizingMaskIntoConstraints="NO" id="gKG-28-q9y">
+                                        <rect key="frame" x="55" y="8" width="489" height="35"/>
                                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oic-fD-3JD">
+                                        <rect key="frame" x="550" y="11" width="46" height="30"/>
+                                        <state key="normal" title="Send">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="8AV-sN-ZPl" secondAttribute="bottom" constant="6" id="1f2-pe-8HU"/>
                                     <constraint firstItem="8AV-sN-ZPl" firstAttribute="top" secondItem="wT7-K3-yEy" secondAttribute="top" constant="10" id="AIa-9R-1Sa"/>
                                     <constraint firstAttribute="height" constant="50" id="AaI-ku-wrW"/>
+                                    <constraint firstAttribute="bottom" secondItem="oic-fD-3JD" secondAttribute="bottom" constant="9" id="B3y-DP-9fs"/>
+                                    <constraint firstItem="oic-fD-3JD" firstAttribute="top" secondItem="wT7-K3-yEy" secondAttribute="top" constant="11" id="Cv1-N2-w58"/>
                                     <constraint firstItem="gKG-28-q9y" firstAttribute="top" secondItem="wT7-K3-yEy" secondAttribute="topMargin" id="E6x-on-Df6"/>
-                                    <constraint firstAttribute="trailing" secondItem="gKG-28-q9y" secondAttribute="trailing" constant="5" id="FWQ-ZW-b5z"/>
+                                    <constraint firstAttribute="trailing" secondItem="gKG-28-q9y" secondAttribute="trailing" constant="56" id="FWQ-ZW-b5z"/>
+                                    <constraint firstItem="oic-fD-3JD" firstAttribute="leading" secondItem="wT7-K3-yEy" secondAttribute="leading" constant="550" id="Jri-qX-mep"/>
                                     <constraint firstItem="8AV-sN-ZPl" firstAttribute="leading" secondItem="wT7-K3-yEy" secondAttribute="leading" constant="14" id="VFa-iP-E8o"/>
+                                    <constraint firstAttribute="trailing" secondItem="oic-fD-3JD" secondAttribute="trailing" constant="4" id="bLm-TA-bfF"/>
                                     <constraint firstItem="gKG-28-q9y" firstAttribute="leading" secondItem="8AV-sN-ZPl" secondAttribute="trailing" constant="7" id="goS-3m-BGh"/>
                                     <constraint firstItem="gKG-28-q9y" firstAttribute="centerY" secondItem="wT7-K3-yEy" secondAttribute="centerY" id="q4O-oo-Vgz"/>
                                 </constraints>
@@ -409,6 +422,9 @@
                             </mask>
                         </variation>
                     </view>
+                    <connections>
+                        <outlet property="tf_new_message" destination="gKG-28-q9y" id="e2q-nh-Fa6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vvy-nH-dVH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
