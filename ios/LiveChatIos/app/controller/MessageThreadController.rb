@@ -1,19 +1,20 @@
 class MessageThreadController < UIViewController
   extend IB
 
-  attr_accessor :username, :socket
+  attr_accessor :username, :socket, :messages
 
   outlet :iv_user_profile, UIImageView
   outlet :tf_new_message, UITextField
   outlet :bottomConstraint, NSLayoutConstraint
   outlet :messagesCollectionView, UICollectionView
 
-
   def viewDidLoad
     super
     setupSocket
     setupElements
     self.navigationController.navigationBar.translucent = false
+    @messages = []
+    setupKeyboardNotifications
   end
 
   def viewWillAppear(animated)
@@ -38,6 +39,12 @@ class MessageThreadController < UIViewController
     tf_new_message.delegate = self
   end
 
+  def setupKeyboardNotifications
+    tapGesture = UITapGestureRecognizer.alloc.initWithTarget(self, action:"hide_keyboard")
+    tapGesture.delegate = self
+    self.view.addGestureRecognizer(tapGesture)
+  end
+
   #MARK - ACTIONS
 
   def sendMessage
@@ -48,6 +55,10 @@ class MessageThreadController < UIViewController
 
   def goToBottomCollectionView
     p "goToBottomCollectionView"
+  end
+
+  def hide_keyboard
+    tf_new_message.resignFirstResponder
   end
 
   #MARK: - Notification Handler
@@ -68,6 +79,30 @@ class MessageThreadController < UIViewController
     UIView.animateWithDuration(0.1, animations: lambda{
       bottomConstraint.constant = 0.0
     }, nil)
+  end
+
+
+  #MARK: - UICollectionViewDataSource
+
+  def numberOfSectionsInCollectionView(collectionView)
+    1
+  end
+    
+  def collectionView(collectionView, numberOfItemsInSection: section)
+    @messages.count
+  end
+    
+  def collectionView(collectionView , cellForItemAtIndexPath: indexPath )
+    messagesCollectionView.collectionViewLayout.invalidateLayout
+    cell = collectionView.dequeueReusableCellWithReuseIdentifier("MessageContentView", forIndexPath:indexPath)
+    cell.setMessage(@messages[indexPath.row])
+    cell
+  end
+
+  def collectionView(collectionView, layout: collectionViewLayout,sizeForItemAtIndexPath: indexPath)
+    height = MessageViewCell.heightForCellWithMessage(messages[indexPath.row].content)
+    collectionView.collectionViewLayout.invalidateLayout
+    CGSizeMake(UIScreen.mainScreen.bounds.width, CGFloat(height))
   end
 
   #MARK - DELEGATES
