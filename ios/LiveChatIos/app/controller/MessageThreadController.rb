@@ -11,7 +11,7 @@ class MessageThreadController < UIViewController
 
   def viewDidLoad
     super
-    self.navigationController.navigationBar.translucent = false
+    setupKeyboardNotifications
   end
 
   def viewWillAppear(animated)
@@ -23,7 +23,13 @@ class MessageThreadController < UIViewController
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardDidShowNotification, object: nil)
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
   end
-    
+
+  def setupKeyboardNotifications
+    tapGesture = UITapGestureRecognizer(target: self, action: "hide_keyboard")
+    tapGesture.cancelsTouchesInView = false
+    self.view.addGestureRecognizer(tapGesture)
+  end
+
   #MARK - ACTIONS
 
   def send_message
@@ -32,6 +38,10 @@ class MessageThreadController < UIViewController
 
   def goToBottomCollectionView
     p "goToBottomCollectionView"
+  end
+
+  def hide_keyboard
+    tf_new_message.resignFirstResponder
   end
 
   #MARK: - Notification Handler
