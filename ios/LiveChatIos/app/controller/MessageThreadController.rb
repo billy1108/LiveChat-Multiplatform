@@ -12,7 +12,6 @@ class MessageThreadController < UIViewController
   def viewDidLoad
     super
     self.navigationController.navigationBar.translucent = false
-    setup_elements
   end
 
   def viewWillAppear(animated)
@@ -25,10 +24,6 @@ class MessageThreadController < UIViewController
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
   end
 
-  def setup_elements
-    @socketIO = SocketIO.alloc.initWithDelegate(self)
-    @socketIO.connectToHost("livechat-multiplatform.herokuapp.com",onPort:80)
-  end
     
 
   #MARK - ACTIONS
