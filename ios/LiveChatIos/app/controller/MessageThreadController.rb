@@ -1,16 +1,18 @@
 class MessageThreadController < UIViewController
   extend IB
 
-  attr_accessor :username, :messages
+  attr_accessor :username, :socket, :messages
 
   outlet :iv_user_profile, UIImageView
   outlet :tf_new_message, UITextField
   outlet :bottomConstraint, NSLayoutConstraint
   outlet :messagesCollectionView, UICollectionView
 
-
   def viewDidLoad
     super
+    setupSocket
+    setupElements
+    self.navigationController.navigationBar.translucent = false
     @messages = []
     setupKeyboardNotifications
   end
@@ -23,6 +25,18 @@ class MessageThreadController < UIViewController
   def viewDidDisappear(animated)
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardDidShowNotification, object: nil)
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    @socket.on('disconnect')
+  end
+
+  def setupSocket
+    SIOSocket.socketWithHost("http://localhost:3000", response: lambda {  |socket|
+      @socket = socket
+      @socket.emit( 'add user', args: [@username] )
+    })
+  end
+
+  def setupElements
+    tf_new_message.delegate = self
   end
 
   def setupKeyboardNotifications
@@ -33,9 +47,10 @@ class MessageThreadController < UIViewController
 
   #MARK - ACTIONS
 
-  def send_message
-    p "send_messague"
-    @socketIO.sendMessage(tf_new_message.text)
+  def sendMessage
+    @socket.emit('new message', args: [tf_new_message.text])
+    tf_new_message.text = ""
+    p "envie"
   end
 
   def goToBottomCollectionView
@@ -66,6 +81,7 @@ class MessageThreadController < UIViewController
     }, nil)
   end
 
+
   #MARK: - UICollectionViewDataSource
 
   def numberOfSectionsInCollectionView(collectionView)
@@ -87,6 +103,15 @@ class MessageThreadController < UIViewController
     height = MessageViewCell.heightForCellWithMessage(messages[indexPath.row].content)
     collectionView.collectionViewLayout.invalidateLayout
     CGSizeMake(UIScreen.mainScreen.bounds.width, CGFloat(height))
+  end
+
+  #MARK - DELEGATES
+  def textFieldDidBeginEditing textField
+    @socket.emit('typing')
+  end
+
+  def textFieldEndEditing textField
+    @socket.emit('stop typing')
   end
 
 end
