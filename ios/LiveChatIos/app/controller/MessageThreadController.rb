@@ -26,15 +26,16 @@ class MessageThreadController < UIViewController
   end
 
   def setup_elements
-    socketIO = SocketIO.alloc.initWithDelegate(self)
-    socketIO.connectToHost("localhost",onPort:nil)
+    @socketIO = SocketIO.alloc.initWithDelegate(self)
+    @socketIO.connectToHost("livechat-multiplatform.herokuapp.com",onPort:80)
   end
     
 
   #MARK - ACTIONS
 
   def send_message
-    
+    p "send_messague"
+    @socketIO.sendMessage(tf_new_message.text)
   end
 
   def goToBottomCollectionView
