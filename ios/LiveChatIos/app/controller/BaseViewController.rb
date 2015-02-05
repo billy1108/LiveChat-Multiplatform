@@ -6,6 +6,8 @@ class BaseViewController < UIViewController
 
   def viewDidLoad
     super
+    socketIO = SocketIO.alloc.initWithDelegate(self)
+    p "#{socketIO.inspect}"
     self.navigationController.navigationBar.translucent = false
   end
 

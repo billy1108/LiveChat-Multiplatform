@@ -124,7 +124,7 @@
                                             <constraint firstAttribute="width" constant="50" id="JOC-Mn-YQz"/>
                                             <constraint firstAttribute="width" constant="50" id="fOr-pk-w4R"/>
                                         </constraints>
-                                        <state key="normal" image="event_back2@2x">
+                                        <state key="normal">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <variation key="default">
@@ -337,13 +337,13 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wT7-K3-yEy">
                                 <rect key="frame" x="0.0" y="550" width="600" height="50"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="event_person@2x" translatesAutoresizingMaskIntoConstraints="NO" id="8AV-sN-ZPl">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8AV-sN-ZPl">
                                         <rect key="frame" x="14" y="10" width="34" height="34"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="34" id="q5r-37-Ngn"/>
                                         </constraints>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" background="color_textfield_background@2x" translatesAutoresizingMaskIntoConstraints="NO" id="gKG-28-q9y">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gKG-28-q9y">
                                         <rect key="frame" x="55" y="8" width="489" height="35"/>
                                         <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="deviceRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
