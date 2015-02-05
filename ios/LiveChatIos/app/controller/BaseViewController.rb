@@ -19,11 +19,10 @@ class BaseViewController < UIViewController
 
 
   def prepareForSegue segue, sender: sender
-    @socket.emit("holi", args: ["hola"])
-    p "envie"
     case segue.identifier
     when "MessageThreadDetailSegue"
       segue.destinationViewController.username = usernameTextField.text
+      segue.destinationViewController.socket = @socket
     end
   end
 
