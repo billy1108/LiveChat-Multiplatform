@@ -8,11 +8,12 @@ class BaseViewController < UIViewController
 
   def viewDidLoad
     super
+
     SIOSocket.socketWithHost("http://localhost:3000", response: lambda {  |socket|
       @socket = socket
       p "#{@socket.inspect}"
     })
-    
+  
     self.navigationController.navigationBar.translucent = false
   end
 

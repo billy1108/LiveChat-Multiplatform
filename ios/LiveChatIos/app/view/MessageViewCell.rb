@@ -6,8 +6,13 @@ class MessageViewCell < UITableViewCell
   outlet :lbl_time, UILabel
   outlet :lbl_text, UILabel
 
-  def setMessageCell message
-    
+  def setMessage(message)
+    lbl_day.text = "Jueves"
+    lbl_time.text = "Tiempo"
+    lbl_time.setTranslatesAutoresizingMaskIntoConstraints(false)
+    lbl_day.setTranslatesAutoresizingMaskIntoConstraints(false)
+    lbl_text.setTranslatesAutoresizingMaskIntoConstraints(false)
+    lbl_text.text = message.content
   end
   
 end

@@ -1,7 +1,7 @@
 class MessageThreadController < UIViewController
   extend IB
 
-  attr_accessor :username
+  attr_accessor :username, :messages
 
   outlet :iv_user_profile, UIImageView
   outlet :tf_new_message, UITextField
@@ -11,6 +11,7 @@ class MessageThreadController < UIViewController
 
   def viewDidLoad
     super
+    @messages = []
     setupKeyboardNotifications
   end
 
@@ -25,15 +26,16 @@ class MessageThreadController < UIViewController
   end
 
   def setupKeyboardNotifications
-    tapGesture = UITapGestureRecognizer(target: self, action: "hide_keyboard")
-    tapGesture.cancelsTouchesInView = false
+    tapGesture = UITapGestureRecognizer.alloc.initWithTarget(self, action:"hide_keyboard")
+    tapGesture.delegate = self
     self.view.addGestureRecognizer(tapGesture)
   end
 
   #MARK - ACTIONS
 
   def send_message
-    
+    p "send_messague"
+    @socketIO.sendMessage(tf_new_message.text)
   end
 
   def goToBottomCollectionView
@@ -62,6 +64,29 @@ class MessageThreadController < UIViewController
     UIView.animateWithDuration(0.1, animations: lambda{
       bottomConstraint.constant = 0.0
     }, nil)
+  end
+
+  #MARK: - UICollectionViewDataSource
+
+  def numberOfSectionsInCollectionView(collectionView)
+    1
+  end
+    
+  def collectionView(collectionView, numberOfItemsInSection: section)
+    @messages.count
+  end
+    
+  def collectionView(collectionView , cellForItemAtIndexPath: indexPath )
+    messagesCollectionView.collectionViewLayout.invalidateLayout
+    cell = collectionView.dequeueReusableCellWithReuseIdentifier("MessageContentView", forIndexPath:indexPath)
+    cell.setMessage(@messages[indexPath.row])
+    cell
+  end
+
+  def collectionView(collectionView, layout: collectionViewLayout,sizeForItemAtIndexPath: indexPath)
+    height = MessageViewCell.heightForCellWithMessage(messages[indexPath.row].content)
+    collectionView.collectionViewLayout.invalidateLayout
+    CGSizeMake(UIScreen.mainScreen.bounds.width, CGFloat(height))
   end
 
 end
