@@ -12,7 +12,6 @@ class MessageThreadController < UIViewController
     super
     setupSocket
     setupElements
-    self.navigationController.navigationBar.translucent = false
     @messages = []
     setupKeyboardNotifications
   end
@@ -30,9 +29,18 @@ class MessageThreadController < UIViewController
   end
 
   def setupSocket
-    SIOSocket.socketWithHost("http://localhost:3000", response: lambda {  |socket|
+    SIOSocket.socketWithHost("https://livechat-multiplatform.herokuapp.com/", response: lambda {  |socket|
       @socket = socket
       @socket.emit( 'add user', args: [@username] )
+      setupSocketListener
+    })
+  end
+
+  def setupSocketListener
+    @socket.on("new message", callback: lambda{ |data|
+      @messages << Message.new(data.first["username"], data.first["message"])
+      messagesCollectionView.reloadData
+      goToBottomCollectionView
     })
   end
 
@@ -50,12 +58,19 @@ class MessageThreadController < UIViewController
 
   def sendMessage
     @socket.emit('new message', args: [tf_new_message.text])
+    @messages << Message.new(@username, tf_new_message.text)
+    messagesCollectionView.reloadData
     tf_new_message.text = ""
-    p "envie"
+    hide_keyboard
+    goToBottomCollectionView
   end
 
   def goToBottomCollectionView
-    p "goToBottomCollectionView"
+    item = @messages.count - 1
+    if (item >= 0)
+      index_path = NSIndexPath.indexPathForRow(item, inSection:0)
+      messagesCollectionView.scrollToItemAtIndexPath(index_path, atScrollPosition: UICollectionViewScrollPositionBottom, animated: true)
+    end
   end
 
   def hide_keyboard
@@ -103,7 +118,7 @@ class MessageThreadController < UIViewController
   def collectionView(collectionView, layout: collectionViewLayout,sizeForItemAtIndexPath: indexPath)
     height = MessageViewCell.heightForCellWithMessage(messages[indexPath.row].content)
     collectionView.collectionViewLayout.invalidateLayout
-    CGSizeMake(UIScreen.mainScreen.bounds.width, CGFloat(height))
+    CGSizeMake(UIScreen.mainScreen.bounds.size.width, height)
   end
 
   #MARK - DELEGATES

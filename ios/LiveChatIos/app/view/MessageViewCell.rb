@@ -1,4 +1,4 @@
-class MessageViewCell < UITableViewCell
+class MessageViewCell < UICollectionViewCell
   extend IB
 
   outlet :user_picture, UIImageView
@@ -7,12 +7,27 @@ class MessageViewCell < UITableViewCell
   outlet :lbl_text, UILabel
 
   def setMessage(message)
-    lbl_day.text = "Jueves"
-    lbl_time.text = "Tiempo"
-    lbl_time.setTranslatesAutoresizingMaskIntoConstraints(false)
-    lbl_day.setTranslatesAutoresizingMaskIntoConstraints(false)
-    lbl_text.setTranslatesAutoresizingMaskIntoConstraints(false)
-    lbl_text.text = message.content
+    lbl_day.text = message.username
+    today = NSDate.date
+    dateFormatter = NSDateFormatter.alloc.init
+    dateFormatter.setTimeStyle(NSDateFormatterShortStyle)
+    currentTime = dateFormatter.stringFromDate(today)
+    lbl_time.text = currentTime
+    paragraphStyle = NSMutableParagraphStyle.alloc.init
+    paragraphStyle.lineSpacing = 4
+    attrString = NSMutableAttributedString.alloc.initWithString(message.content)
+    attrString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, attrString.length))
+    lbl_text.attributedText  = attrString
   end
+
+  def self.heightForCellWithMessage(message)
+    size = CGSizeMake(280, 1000)
+    paragraphStyle = NSMutableParagraphStyle.alloc.init
+    paragraphStyle.lineSpacing = 4
+    attrs = { NSFontAttributeName => UIFont.fontWithName("Helvetica", size:13.0), NSParagraphStyleAttributeName => paragraphStyle }
+    bounding = message.boundingRectWithSize(size, options: NSStringDrawingUsesLineFragmentOrigin, attributes: attrs, context: nil)
+    return (bounding.size.height + 50)
+  end
+
   
 end

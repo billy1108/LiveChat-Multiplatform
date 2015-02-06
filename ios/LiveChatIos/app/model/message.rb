@@ -1,9 +1,9 @@
 class Message
 
-  attr_accessor :id, :content
+  attr_accessor :username, :content
 
-  def initialize(id = "", name = "")
-    @id = id
+  def initialize(username = "", content = "")
+    @username = username
     @content = content
   end
 

@@ -7,16 +7,9 @@ class BaseViewController < UIViewController
   outlet :goButton, UIButton
 
   def viewDidLoad
-    super
-
-    SIOSocket.socketWithHost("http://localhost:3000", response: lambda {  |socket|
-      @socket = socket
-      p "#{@socket.inspect}"
-    })
-  
+    super  
     self.navigationController.navigationBar.translucent = false
   end
-
 
   def prepareForSegue segue, sender: sender
     case segue.identifier
