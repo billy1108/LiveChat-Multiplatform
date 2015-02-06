@@ -23,9 +23,10 @@ class MessageThreadController < UIViewController
   end
 
   def viewDidDisappear(animated)
+    p "dismiss"
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardDidShowNotification, object: nil)
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
-    @socket.on('disconnect')
+    @socket.emit('disconnect')
   end
 
   def setupSocket
