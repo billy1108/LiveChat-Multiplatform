@@ -6,10 +6,9 @@ class MapViewCell < UICollectionViewCell
   outlet :mapView, MKMapView
 
   def setMap(message)
-    p "PENEEEEEEEE"
     @message = message
-    p "peneeeeeeSSDFASDF #{message.latitude}"
-    p "fdsasadspeneeeeeeSSDFASDF #{message.longitude}"
+    p "message latitude #{message.latitude}"
+    p "message longitude #{message.longitude}"
     setUsername
     setCurrentTime
     mapView.zoomEnabled = false
@@ -23,6 +22,7 @@ class MapViewCell < UICollectionViewCell
     mapView.setRegion(region, animated:false)
     mapView.layer.borderWidth = 2
     mapView.layer.borderColor = UIColor.blueColor
+    p "end MapViewCell"
   end
 
   def setUsername

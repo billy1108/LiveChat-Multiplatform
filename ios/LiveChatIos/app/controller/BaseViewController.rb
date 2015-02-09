@@ -17,7 +17,6 @@ class BaseViewController < UIViewController
   end
 
   def locationManager
-    p "locationmanager"
     @locationManager = CLLocationManager.alloc.init
     @locationManager.delegate = self
     if @locationManager.respondsToSelector("requestWhenInUseAuthorization")
@@ -49,31 +48,28 @@ class BaseViewController < UIViewController
   end
 
   def goToMessageThread
-    SVProgressHUD.showWithStatus("", maskType: 2)
-    p "DFfdsfdssd"
+    # SVProgressHUD.showWithStatus("", maskType: 2)
     self.performSegueWithIdentifier("MessageThreadDetailSegue", sender: nil)
   end
 
   #MARK - Location Delegates
   def locationManager(manager, didUpdateLocations:locations)
-    p "didUpdateLocations"
     @location = locations.lastObject
     @locationManager.stopUpdatingLocation
-    p "LOCATION #{@location}"
   end
 
   def locationManager(manager, didFailWithError:error)
-    p "didFailWithError"
+    p "locationManager didFailWithError"
     # AlertMessage.information(self, "Yogabuddy couldn't get your location")
   end
 
   def locationManager(manager, didFinishDeferredUpdatesWithError:error)    
-    p "didFinishDeferredUpdatesWithError"
+    p "locationManager didFinishDeferredUpdatesWithError"
     # AlertMessage.information(self, "#{error.description}")
   end
 
   def locationManager manager, didChangeAuthorizationStatus: status
-    p "didChangeAuthorizationStatus"
+    p "locationManager didChangeAuthorizationStatus"
     case status
       when KCLAuthorizationStatusNotDetermined
         # User hasn’t yet been asked to authorize location updates

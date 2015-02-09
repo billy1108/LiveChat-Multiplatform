@@ -10,8 +10,6 @@ class MessageThreadController < UIViewController
 
   def viewDidLoad
     super
-    NSLog("@location") 
-    NSLog("-#{@location.coordinate.longitude}-") 
     setupSocket
     setupElements
     @messages = []
@@ -24,7 +22,6 @@ class MessageThreadController < UIViewController
   end
 
   def viewDidDisappear(animated)
-    p "dismiss"
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardDidShowNotification, object: nil)
     NSNotificationCenter.defaultCenter.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
     @socket.emit('user left')
@@ -48,18 +45,13 @@ class MessageThreadController < UIViewController
     @socket.on("new message", callback: lambda{ |data|
       @messages << Message.new(data.first["username"], data.first["message"])
       messagesCollectionView.reloadData
-      p @messages
       goToBottomCollectionView
     })
   end
 
   def setupLocationListener
     @socket.on("new message map", callback: lambda{ |data|
-      p "DATA #{data}"
-      p "username #{data.first["username"]}"
-      p "latitude #{data.first["latitude"]}"
       @messages << Message.new(data.first["username"],"", data.first["latitude"], data.first["longitude"])
-      p "SILENCIO FORNICADORA #{@messages.last.inspect}"
       messagesCollectionView.reloadData
       goToBottomCollectionView
     })
@@ -96,19 +88,14 @@ class MessageThreadController < UIViewController
   end
 
   def goToBottomCollectionView
-    p "goToBottomCollectionView"
     item = @messages.count - 1
-    p "ITEM #{item}"
     if (item >= 0)
       index_path = NSIndexPath.indexPathForRow(item, inSection:0)
-      p "INDEXPATH #{index_path}"
       messagesCollectionView.scrollToItemAtIndexPath(index_path, atScrollPosition: UICollectionViewScrollPositionBottom, animated: true)
     end
-    p "endgoToBottomCollectionView"
   end
 
   def showActionSheet
-    p "action"
     myActionSheet = UIActionSheet.alloc.init
     myActionSheet.addButtonWithTitle("Share Location")
     myActionSheet.addButtonWithTitle("Choose Image")
@@ -155,15 +142,15 @@ class MessageThreadController < UIViewController
   end
     
   def collectionView(collectionView , cellForItemAtIndexPath: indexPath )
-    p "ENTRO PENElegado"
     messagesCollectionView.collectionViewLayout.invalidateLayout
+    cell = nil
     unless  @messages[indexPath.row].content == ""
       cell = collectionView.dequeueReusableCellWithReuseIdentifier("MessageContentView", forIndexPath:indexPath)
       cell.setMessage(@messages[indexPath.row])
     else
-      p "ENTRO PENE #{indexPath.row}"
+      p "ENTRO message map #{indexPath.row}"
       cell = collectionView.dequeueReusableCellWithReuseIdentifier("MapContentView", forIndexPath:indexPath)
-      p "ENTROfgfgfggfgsgsd"
+      p "no 11"
       cell.setMap(@messages[indexPath.row])
     end
     cell
@@ -191,10 +178,10 @@ class MessageThreadController < UIViewController
   #MARK - ActionSheet Delegates
 
   def actionSheet(myActionSheet, clickedButtonAtIndex: buttonIndex)
-        if buttonIndex == 0
-            #SVProgressHUD.showWithStatus("", maskType: 3)
-            sendLocation
-        end
+    if buttonIndex == 0
+      #SVProgressHUD.showWithStatus("", maskType: 3)
+      sendLocation
+    end
   end
 
 end

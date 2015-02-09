@@ -230,9 +230,9 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXd-zn-JdN">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iXd-zn-JdN">
                                                     <rect key="frame" x="315" y="10" width="265" height="15"/>
-                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="15" id="mer-sE-cl1"/>
                                                     </constraints>
@@ -421,7 +421,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="34" id="cEN-Hb-QtP"/>
                                         </constraints>
-                                        <state key="normal" backgroundImage="images/locationIcon.png">
+                                        <state key="normal" backgroundImage="images/locationIcon@2x.png">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -880,7 +880,7 @@
         <image name="color_textfield_background@2x" width="320" height="568"/>
         <image name="event_back2@2x" width="320" height="568"/>
         <image name="event_person@2x" width="320" height="568"/>
-        <image name="images/locationIcon.png" width="320" height="568"/>
+        <image name="images/locationIcon@2x.png" width="320" height="568"/>
     </resources>
     <color key="tintColor" red="0.22745099663734436" green="0.88235300779342651" blue="0.77647066116333008" alpha="1" colorSpace="deviceRGB"/>
 </document>

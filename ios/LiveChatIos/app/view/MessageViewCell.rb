@@ -7,7 +7,6 @@ class MessageViewCell < UICollectionViewCell
   outlet :lbl_text, UILabel
 
   def setMessage(message)
-    p "MESSAGE"
     lbl_day.text = message.username
     today = NSDate.date
     dateFormatter = NSDateFormatter.alloc.init
