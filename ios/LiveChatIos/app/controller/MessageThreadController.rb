@@ -28,7 +28,7 @@ class MessageThreadController < UIViewController
   end
 
   def setupSocket
-    SIOSocket.socketWithHost("http://localhost:3000/", response: lambda {  |socket|
+    SIOSocket.socketWithHost("https://livechat-multiplatform.herokuapp.com/", response: lambda {  |socket|
       @socket = socket
       @socket.emit( 'add user', args: [@username] )
       setupSocketListeners
@@ -52,7 +52,7 @@ class MessageThreadController < UIViewController
   def setupLocationListener
     @socket.on("new message map", callback: lambda{ |data|
       @messages << Message.new(data.first["username"],"", data.first["latitude"], data.first["longitude"])
-      messagesCollectionView.reloadData
+      reloadMessageCollection
       goToBottomCollectionView
     })
   end
@@ -73,17 +73,23 @@ class MessageThreadController < UIViewController
     unless tf_new_message.text == ""
       @socket.emit('new message', args: [tf_new_message.text])
       @messages << Message.new(@username, tf_new_message.text)
-      messagesCollectionView.reloadData
+      reloadMessageCollection
       tf_new_message.text = ""
       hideKeyboard
       goToBottomCollectionView
     end
   end
 
+  def reloadMessageCollection
+    messagesCollectionView.performBatchUpdates( lambda { 
+      messagesCollectionView.insertItemsAtIndexPaths([NSIndexPath.indexPathForItem(@messages.count - 1, inSection:0)])
+    }, completion: nil)
+  end
+
   def sendLocation
     @socket.emit('new message map', args: [{ :latitude => @location.coordinate.latitude, :longitude => @location.coordinate.longitude}])
     @messages << Message.new(@username,"", @location.coordinate.latitude, @location.coordinate.longitude)
-    messagesCollectionView.reloadData
+    reloadMessageCollection
     goToBottomCollectionView
   end
 
@@ -148,9 +154,7 @@ class MessageThreadController < UIViewController
       cell = collectionView.dequeueReusableCellWithReuseIdentifier("MessageContentView", forIndexPath:indexPath)
       cell.setMessage(@messages[indexPath.row])
     else
-      p "ENTRO message map #{indexPath.row}"
       cell = collectionView.dequeueReusableCellWithReuseIdentifier("MapContentView", forIndexPath:indexPath)
-      p "no 11"
       cell.setMap(@messages[indexPath.row])
     end
     cell
